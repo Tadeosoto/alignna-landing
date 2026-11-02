@@ -1,0 +1,243 @@
+.lpForm {
+  width: 100%;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+.lpForm__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.lpForm__input {
+  min-height: 3rem;
+  width: 100%;
+  border: 1px solid #c8c5be;
+  background: #fff;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  color: #3a3834;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lpForm__input:focus {
+  border-color: #8fb8a1;
+  box-shadow: 0 0 0 3px rgba(143, 184, 161, 0.25);
+}
+
+.lpForm__input:disabled {
+  opacity: 0.7;
+}
+
+.lpForm__btn {
+  min-height: 3rem;
+  padding: 0.7rem 1.25rem;
+  border: none;
+  background: #8fb8a1;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
+}
+
+.lpForm__btn:hover:not(:disabled) {
+  background: #7fa992;
+}
+
+.lpForm__btn:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.lpForm__note {
+  margin: 0.7rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #8a8680;
+}
+
+.lpForm__msg {
+  margin: 0.65rem 0 0;
+  font-size: 0.88rem;
+  color: #4b4b46;
+}
+
+.lpForm__msg--error {
+  color: #9b3b3b;
+}
+
+/* Dark section (Inside product) */
+.lpForm--dark .lpForm__input {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #f5f2ec;
+}
+
+.lpForm--dark .lpForm__input::placeholder {
+  color: rgba(245, 242, 236, 0.55);
+}
+
+.lpForm--dark .lpForm__input:focus {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+}
+
+.lpForm--dark .lpForm__btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  color: #f5f2ec;
+}
+
+.lpForm--dark .lpForm__btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lpForm--dark .lpForm__note,
+.lpForm--dark .lpForm__msg {
+  color: rgba(245, 242, 236, 0.7);
+}
+
+.lpForm--dark .lpForm__msg--error {
+  color: #ffb4a8;
+}
+
+/* Final CTA pill */
+.lpForm--pill .lpForm__row {
+  gap: 0;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.lpForm--pill .lpForm__input {
+  border: none;
+  border-radius: 0;
+  min-height: 3.25rem;
+  padding-inline: 1.35rem;
+  text-align: center;
+}
+
+.lpForm--pill .lpForm__input::placeholder {
+  text-align: center;
+}
+
+.lpForm--pill .lpForm__input:focus {
+  box-shadow: none;
+}
+
+.lpForm--pill .lpForm__btn {
+  border-radius: 0;
+  background: #a08b71;
+  min-height: 3.25rem;
+  padding-inline: 1.4rem;
+  text-align: center;
+}
+
+.lpForm--pill .lpForm__btn:hover:not(:disabled) {
+  background: #917c63;
+}
+
+.lpForm--pill .lpForm__note {
+  text-align: center;
+  color: rgba(245, 242, 236, 0.65);
+}
+
+.lpForm--pill .lpForm__msg {
+  text-align: center;
+  color: #f5f2ec;
+}
+
+/* Overlay on cinematic / media hero */
+.lpForm--overlay .lpForm__row {
+  gap: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.28);
+}
+
+.lpForm--overlay .lpForm__input {
+  border: none;
+  background: transparent;
+  min-height: 3.15rem;
+  padding-inline: 1.25rem;
+  color: #1f1e1b;
+}
+
+.lpForm--overlay .lpForm__input::placeholder {
+  color: #8a8680;
+}
+
+.lpForm--overlay .lpForm__input:focus {
+  box-shadow: none;
+}
+
+.lpForm--overlay .lpForm__btn {
+  border-radius: 0;
+  background: #8fb8a1;
+  min-height: 3.15rem;
+  padding-inline: 1.35rem;
+  color: #fff;
+}
+
+.lpForm--overlay .lpForm__btn:hover:not(:disabled) {
+  background: #7fa992;
+}
+
+.lpForm--overlay .lpForm__note,
+.lpForm--overlay .lpForm__msg {
+  color: rgba(245, 242, 236, 0.72);
+}
+
+.lpForm--overlay .lpForm__msg--error {
+  color: #ffb4a8;
+}
+
+@media (min-width: 640px) {
+  .lpForm__row {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .lpForm:not(.lpForm--pill) .lpForm__input {
+    border-right: none;
+    flex: 1 1 auto;
+  }
+
+  .lpForm:not(.lpForm--pill) .lpForm__btn {
+    flex: 0 0 auto;
+  }
+
+  .lpForm--dark .lpForm__row {
+    gap: 0.65rem;
+  }
+
+  .lpForm--dark .lpForm__input {
+    border-right: 1px solid rgba(255, 255, 255, 0.55);
+  }
+
+  .lpForm--pill .lpForm__row {
+    border-radius: 999px;
+  }
+
+  .lpForm--pill .lpForm__input {
+    text-align: left;
+    padding-left: 1.35rem;
+    padding-right: 0.75rem;
+  }
+
+  .lpForm--pill .lpForm__input::placeholder {
+    text-align: left;
+  }
+
+  .lpForm--pill .lpForm__btn {
+    padding-inline: 1.75rem;
+  }
+}
