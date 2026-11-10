@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import WaitlistForm from "../landingPage/components/WaitlistForm";
 import alignnaWordmarkUrl from "../assets/michPageAssets/logos-icons/Alignna-BlancoRoto.svg";
@@ -35,32 +35,63 @@ const sectionImages = {
   kickstarterWordmark: sectionImage("Kickstarter-Logo.svg"),
 };
 
+function attachInlinePlayback(node) {
+  if (!node) return;
+  node.muted = true;
+  node.defaultMuted = true;
+  node.playsInline = true;
+  node.setAttribute("muted", "");
+  node.setAttribute("playsinline", "");
+  node.setAttribute("webkit-playsinline", "true");
+}
+
 function LoopVideo({ src, poster, className, label, eager = false }) {
   const videoRef = useRef(null);
   const reduceMotion = useReducedMotion();
+  const [covered, setCovered] = useState(true);
+  const allowPlay = reduceMotion !== true;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const video = videoRef.current;
     if (!video) return undefined;
-    video.muted = true;
+    attachInlinePlayback(video);
 
-    if (reduceMotion !== false) {
+    const reduce =
+      reduceMotion === true ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      video.autoplay = false;
+      video.removeAttribute("autoplay");
       video.pause();
       return undefined;
     }
 
     const play = () => {
+      attachInlinePlayback(video);
       const pending = video.play();
       if (pending) pending.catch(() => {});
     };
 
     const inView = () => {
       const rect = video.getBoundingClientRect();
-      const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+      const visible =
+        Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
       return rect.height > 0 && visible / rect.height >= 0.15;
     };
 
+    const syncCover = () => {
+      if (!video.paused) {
+        setCovered(false);
+        return;
+      }
+      if (video.currentTime >= 0.05) setCovered(true);
+    };
+
     if (eager || inView()) play();
+    video.addEventListener("canplay", play);
+    video.addEventListener("playing", syncCover);
+    video.addEventListener("pause", syncCover);
+    syncCover();
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -70,25 +101,45 @@ function LoopVideo({ src, poster, className, label, eager = false }) {
       { threshold: 0.15 },
     );
     observer.observe(video);
-    return () => observer.disconnect();
+    return () => {
+      video.removeEventListener("canplay", play);
+      video.removeEventListener("playing", syncCover);
+      video.removeEventListener("pause", syncCover);
+      observer.disconnect();
+    };
   }, [eager, reduceMotion, src]);
 
   return (
-    <video
-      ref={videoRef}
-      className={className}
-      poster={poster}
-      muted
-      loop
-      playsInline
-      autoPlay={eager && reduceMotion === false}
-      preload={eager ? "metadata" : "none"}
-      disablePictureInPicture
-      aria-hidden={label ? undefined : true}
-      aria-label={label}
-    >
-      <source src={src} type="video/mp4" />
-    </video>
+    <>
+      <video
+        ref={(node) => {
+          videoRef.current = node;
+          attachInlinePlayback(node);
+        }}
+        className={className}
+        poster={poster}
+        muted
+        loop
+        playsInline
+        autoPlay={allowPlay}
+        preload={eager ? "auto" : "none"}
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
+        aria-hidden={label ? undefined : true}
+        aria-label={label}
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+      {covered ? (
+        <img
+          className={`${className ? `${className} ` : ""}alignnaV2__loopPoster`}
+          src={poster}
+          alt=""
+          aria-hidden
+        />
+      ) : null}
+    </>
   );
 }
 
@@ -913,7 +964,9 @@ export default function AlignnaV2() {
               </motion.p>
               <motion.h3 variants={stepFieldReveal}>{step.title}</motion.h3>
               <motion.div
-                className="alignnaV2Steps__media"
+                className={`alignnaV2Steps__media${
+                  step.number === 1 ? " alignnaV2Steps__media--wear" : ""
+                }`}
                 variants={stepFieldReveal}
               >
                 <LoopVideo
