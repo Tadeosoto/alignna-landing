@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import WaitlistForm from "../landingPage/components/WaitlistForm";
 import alignnaWordmarkUrl from "../assets/michPageAssets/logos-icons/Alignna-BlancoRoto.svg";
@@ -10,11 +10,22 @@ const sectionImage = (filename) =>
 const situationImage = (filename) =>
   `/images-inside-sections/wear-it-every-situation/${encodeURIComponent(filename)}`;
 
+const loopVideo = (name) => ({
+  src: `/videos-and-posters/${name}.mp4`,
+  poster: `/videos-and-posters/${name}-poster.webp`,
+});
+
+const loopVideos = {
+  hero: loopVideo("hero-vibracion"),
+  stepWear: loopVideo("step1-wear-it"),
+  stepFeel: loopVideo("step2-feel-it"),
+  stepOwn: loopVideo("step3-own-it-bens"),
+  inside: loopVideo("inside-charcoal-3x4"),
+  problemBefore: loopVideo("section2-without"),
+  problemAfter: loopVideo("section2-with"),
+};
+
 const sectionImages = {
-  hero: sectionImage("Gif-hero.gif"),
-  stepWear: sectionImage("Wear it.gif"),
-  stepFeel: sectionImage("Feel it.gif"),
-  stepOwn: sectionImage("OwnitV2.gif"),
   launchBelt: sectionImage("Section 5 Image 1 V01.png"),
   colorBrown: sectionImage("Marron.png"),
   colorPink: sectionImage("Rosa.png"),
@@ -22,22 +33,62 @@ const sectionImages = {
   founder: sectionImage("imagen-about-founder.png"),
   kickstarterLogo: sectionImage("KS-logo-hero.png"),
   kickstarterWordmark: sectionImage("Kickstarter-Logo.svg"),
-  insideRender: sectionImage("Render.gif"),
 };
 
-const problemBeforeImage = "/beforeAndAfter-section/BeforeOnly.webp";
-const problemAfterImage = "/beforeAndAfter-section/AfterOnly.webp";
+function LoopVideo({ src, poster, className, label, eager = false }) {
+  const videoRef = useRef(null);
+  const reduceMotion = useReducedMotion();
 
-function ProblemPanelImage({ src, alt }) {
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+    video.muted = true;
+
+    if (reduceMotion !== false) {
+      video.pause();
+      return undefined;
+    }
+
+    const play = () => {
+      const pending = video.play();
+      if (pending) pending.catch(() => {});
+    };
+
+    const inView = () => {
+      const rect = video.getBoundingClientRect();
+      const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+      return rect.height > 0 && visible / rect.height >= 0.15;
+    };
+
+    if (eager || inView()) play();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) play();
+        else video.pause();
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [eager, reduceMotion, src]);
+
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={720}
-      height={406}
-      decoding="async"
-      loading="lazy"
-    />
+    <video
+      ref={videoRef}
+      className={className}
+      poster={poster}
+      muted
+      loop
+      playsInline
+      autoPlay={eager && reduceMotion === false}
+      preload={eager ? "metadata" : "none"}
+      disablePictureInPicture
+      aria-hidden={label ? undefined : true}
+      aria-label={label}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
   );
 }
 
@@ -190,21 +241,21 @@ const steps = [
     number: 1,
     title: "Wear it",
     body: "Use Alignna at your desk, on the move, before an event, or whenever you want to feel more aware and present.",
-    media: sectionImages.stepWear,
+    media: loopVideos.stepWear,
     alt: "Person wearing the Alignna belt",
   },
   {
     number: 2,
     title: "Feel it",
     body: "When your core lets go, Alignna sends a subtle vibration cue, before a mirror or photograph points it out.",
-    media: sectionImages.stepFeel,
+    media: loopVideos.stepFeel,
     alt: "Alignna belt sending a vibration cue",
   },
   {
     number: 3,
     title: "Own it",
-    body: "You make the adjustment. With repetition, you practise an awareness that belongs to you, not the belt.",
-    media: sectionImages.stepOwn,
+    body: "You make the adjustment. With repetition, you practice an awareness that belongs to you, not the belt.",
+    media: loopVideos.stepOwn,
     alt: "Person confidently wearing Alignna in daily life",
   },
 ];
@@ -660,11 +711,11 @@ export default function AlignnaV2() {
     <div className="alignnaV2">
       <section className="alignnaV2Hero">
         <div className="alignnaV2Hero__media">
-          <img
+          <LoopVideo
             className="alignnaV2Hero__photo"
-            src={sectionImages.hero}
-            alt=""
-            aria-hidden
+            src={loopVideos.hero.src}
+            poster={loopVideos.hero.poster}
+            eager
           />
           <KickstarterBadge />
           <PriceBadge />
@@ -747,9 +798,10 @@ export default function AlignnaV2() {
             className="alignnaV2Problem__panel alignnaV2Problem__panel--left"
             variants={panelLeftVariants}
           >
-            <ProblemPanelImage
-              src={problemBeforeImage}
-              alt="Posture before posture awareness"
+            <LoopVideo
+              src={loopVideos.problemBefore.src}
+              poster={loopVideos.problemBefore.poster}
+              label="Posture before posture awareness"
             />
           </motion.article>
 
@@ -778,9 +830,10 @@ export default function AlignnaV2() {
             className="alignnaV2Problem__panel alignnaV2Problem__panel--right"
             variants={panelRightVariants}
           >
-            <ProblemPanelImage
-              src={problemAfterImage}
-              alt="Posture after posture awareness"
+            <LoopVideo
+              src={loopVideos.problemAfter.src}
+              poster={loopVideos.problemAfter.poster}
+              label="Posture after posture awareness"
             />
           </motion.article>
 
@@ -856,10 +909,14 @@ export default function AlignnaV2() {
               </motion.p>
               <motion.h3 variants={stepFieldReveal}>{step.title}</motion.h3>
               <motion.div
-                className={`alignnaV2Steps__media${step.number === 1 ? " alignnaV2Steps__media--wear" : ""}${step.number === 3 ? " alignnaV2Steps__media--own" : ""}`}
+                className="alignnaV2Steps__media"
                 variants={stepFieldReveal}
               >
-                <img src={step.media} alt={step.alt} />
+                <LoopVideo
+                  src={step.media.src}
+                  poster={step.media.poster}
+                  label={step.alt}
+                />
               </motion.div>
               <motion.p
                 className="alignnaV2Steps__body"
@@ -885,7 +942,11 @@ export default function AlignnaV2() {
           className="alignnaV2Inside__media"
         >
           <motion.div variants={reveal} className="alignnaV2Inside__render">
-            <img src={sectionImages.insideRender} alt="Alignna belt render" />
+            <LoopVideo
+              src={loopVideos.inside.src}
+              poster={loopVideos.inside.poster}
+              label="Alignna belt render"
+            />
           </motion.div>
         </motion.div>
         <p className="alignnaV2Inside__quote">
