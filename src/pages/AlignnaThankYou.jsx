@@ -66,8 +66,9 @@ export default function AlignnaThankYou() {
             <span className="alignnaThanks__cardText">
               <span className="alignnaThanks__cardTitle">Join the community launching group</span>
               <span className="alignnaThanks__cardDesc">
-                You&apos;ll be able to see the behind the scenes, prototypes, and how
-                Alignna gets built. Don&apos;t miss on our giveaways
+                Vote for your favorite colors for the collection, see behind the
+                scenes of how Alignna gets built (and yes, be ready for some
+                giveaways!)
               </span>
             </span>
             <span className="alignnaThanks__cardArrow" aria-hidden="true">
@@ -88,7 +89,8 @@ export default function AlignnaThankYou() {
             <span className="alignnaThanks__cardText">
               <span className="alignnaThanks__cardTitle">Follow on Kickstarter</span>
               <span className="alignnaThanks__cardDesc">
-                One tap now, so you don&apos;t miss the launch window.
+                Get notified of our live campaign. Our best deal will be open for
+                the first 24 hrs
               </span>
             </span>
             <span className="alignnaThanks__cardArrow" aria-hidden="true">

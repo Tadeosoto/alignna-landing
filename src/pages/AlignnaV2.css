@@ -1202,17 +1202,17 @@
   .alignnaV2Hero__wordmark {
     width: clamp(7.2rem, 42vw, 9.5rem);
     height: clamp(2rem, 6.5vw, 2.65rem);
-    margin-bottom: clamp(.25rem, .75dvh, .4rem);
+    margin-bottom: clamp(.5rem, 1.4dvh, .8rem);
   }
-  .alignnaV2Hero .alignnaV2__eyebrow { margin-bottom: clamp(.25rem, .8dvh, .4rem); font-size: .56rem; color: #5f7f68; }
+  .alignnaV2Hero .alignnaV2__eyebrow { margin-bottom: clamp(.85rem, 2.4dvh, 1.2rem); font-size: .56rem; color: #5f7f68; }
   .alignnaV2Hero .alignnaV2__eyebrow i { width: 2rem; }
-  .alignnaV2Hero h1 { max-width: 11ch; margin-bottom: clamp(.2rem, .65dvh, .35rem); font-size: 34px; line-height: 1.05; letter-spacing: -.05em; color: #1a1a1a; }
+  .alignnaV2Hero h1 { max-width: 11ch; margin-bottom: clamp(.8rem, 2.2dvh, 1.15rem); font-size: 34px; line-height: 1.14; letter-spacing: -.05em; color: #1a1a1a; }
   .alignnaV2Hero__body {
     max-width: none;
     margin: 0 0 -1rem;
     color: #3a3e39;
     font-size: 18px;
-    line-height: 1.25;
+    line-height: 1.42;
   }
   .alignnaV2Hero__subtitle,
   .alignnaV2Hero__checks { display: none !important; }
@@ -1231,7 +1231,7 @@
   .alignnaV2Hero .lpForm--overlay .lpForm__btn { border-radius: .42rem; min-height: clamp(2.05rem, 6dvh, 2.35rem); padding: .5rem .8rem; font-size: .84rem; }
   .alignnaV2Hero .lpForm--overlay .lpForm__input, .alignnaV2Hero .lpForm--overlay .lpForm__btn { text-align: center; }
   .alignnaV2Hero .lpForm--overlay .lpForm__note { margin: clamp(.16rem, .65dvh, .28rem) .12rem 0; font-size: clamp(.52rem, 2.2vw, .58rem); line-height: 1.25; color: #4a4e4a; }
-  .alignnaV2Hero__kickstarterBadge { top: -12%; left: -.5%; right: auto; width: clamp(5.4rem, 24vw, 6.8rem); }
+  .alignnaV2Hero__kickstarterBadge { top: .7rem; left: -.5%; right: auto; width: clamp(5.4rem, 24vw, 6.8rem); }
   .alignnaV2Hero__priceBadge { left: 2.5%; right: auto; bottom: 3%; width: clamp(6.4rem, 28vw, 8rem); aspect-ratio: auto; padding: .55rem .65rem; }
   .alignnaV2Hero__priceBadge strong { font-size: clamp(1.35rem, 5.8vw, 1.7rem); }
   .alignnaV2Hero__priceBadge span, .alignnaV2Hero__priceBadge small { font-size: .56rem; letter-spacing: .1em; }
@@ -1844,11 +1844,11 @@
 
 @media (max-width: 760px) and (max-height: 820px) {
   .alignnaV2Hero { grid-template-rows: auto clamp(8rem, 29dvh, 17rem) auto; row-gap: 0; padding: .35rem .9rem calc(.45rem + env(safe-area-inset-bottom, 0px)); }
-  .alignnaV2Hero__wordmark { margin-bottom: .28rem; }
-  .alignnaV2Hero .alignnaV2__eyebrow { margin-bottom: .2rem; }
-  .alignnaV2Hero h1 { font-size: 34px; }
+  .alignnaV2Hero__wordmark { margin-bottom: .55rem; }
+  .alignnaV2Hero .alignnaV2__eyebrow { margin-bottom: .85rem; }
+  .alignnaV2Hero h1 { font-size: 34px; margin-bottom: .8rem; line-height: 1.12; }
   .alignnaV2Hero__subtitle { margin-bottom: .2rem; font-size: .8rem; }
-  .alignnaV2Hero__body { font-size: 18px; line-height: 1.3; }
+  .alignnaV2Hero__body { font-size: 18px; line-height: 1.38; }
   .alignnaV2Hero__checks { margin: .2rem 0 .28rem; }
   .alignnaV2Hero__checks li, .alignnaV2Hero__checks li:first-child { padding: .14rem .1rem; font-size: .63rem; }
   .alignnaV2Hero .lpForm--overlay .lpForm__row { gap: .3rem; }
@@ -1858,15 +1858,74 @@
 
 @media (max-width: 760px) and (max-height: 750px) {
   .alignnaV2Hero { grid-template-rows: auto clamp(7.25rem, 27dvh, 15rem) auto; }
-  .alignnaV2Hero h1 { font-size: 32px; }
-  .alignnaV2Hero__body { font-size: 18px; line-height: 1.28; }
+  .alignnaV2Hero h1 { font-size: 32px; margin-bottom: .65rem; }
+  .alignnaV2Hero__body { font-size: 18px; line-height: 1.36; }
 }
 
 @media (max-width: 760px) and (max-height: 700px) {
   .alignnaV2Hero { grid-template-rows: auto clamp(7rem, 28dvh, 15rem) auto; row-gap: 0; padding: .3rem .85rem calc(.4rem + env(safe-area-inset-bottom, 0px)); }
   .alignnaV2Hero h1 { font-size: 30px; }
+  .alignnaV2Hero__kickstarterBadge { top: .35rem; width: 4.6rem; }
   .alignnaV2Hero__checks { margin: .14rem 0 .2rem; }
   .alignnaV2Hero .lpForm--overlay .lpForm__input, .alignnaV2Hero .lpForm--overlay .lpForm__btn { min-height: 1.95rem; }
+}
+
+@media (min-width: 600px) and (max-width: 760px) and (min-height: 900px) {
+  .alignnaV2 > section {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+  .alignnaV2Hero {
+    display: flex;
+    flex-direction: column;
+    height: 100svh;
+    height: 100dvh;
+    max-height: 100dvh;
+    min-height: 100svh;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+  }
+  .alignnaV2Hero__heading { order: 1; flex: 0 0 auto; }
+  .alignnaV2Hero__media {
+    order: 2;
+    flex: 0 1 auto;
+    height: min(32rem, calc(100dvh - 34rem));
+    min-height: 14rem;
+    max-height: none;
+    margin: .85rem 0 0;
+    overflow: hidden;
+  }
+  .alignnaV2Hero__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+  .alignnaV2Hero__details { order: 3; flex: 0 0 auto; margin-top: .65rem; }
+  .alignnaV2Hero__wordmark {
+    width: 10.75rem;
+    height: 2.95rem;
+    margin-bottom: .9rem;
+  }
+  .alignnaV2Hero .alignnaV2__eyebrow {
+    margin-bottom: 1rem;
+    font-size: .78rem;
+  }
+  .alignnaV2Hero .alignnaV2__eyebrow i { width: 2.75rem; }
+  .alignnaV2Hero h1 {
+    max-width: 14ch;
+    margin-bottom: 1rem;
+    font-size: 50px;
+    line-height: 1.12;
+  }
+  .alignnaV2Hero__body {
+    max-width: 38rem;
+    margin-bottom: 0;
+    font-size: 23px;
+    line-height: 1.5;
+  }
+  .alignnaV2Hero__kickstarterBadge { top: .55rem; width: 6.4rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
