@@ -21,7 +21,7 @@ export default function AlignnaThankYou() {
   return (
     <main className="alignnaThanks">
       <div className="alignnaThanks__page">
-        <Link className="alignnaThanks__brand" to="/alignna-v2" aria-label="Alignna">
+        <Link className="alignnaThanks__brand" to="/" aria-label="Alignna">
           <span
             className="alignnaThanks__wordmark"
             role="img"

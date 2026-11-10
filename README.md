@@ -6,9 +6,8 @@ Standalone Alignna waitlist landing (extracted from Caenna with route/form/API p
 
 | Path | Page |
 |------|------|
-| `/` | Redirects to `/alignna-v2` |
-| `/alignna-v2` | Main landing |
-| `/alignna/thank-you` | Post-submit thank-you |
+| `/` | Main landing |
+| `/thank-you-page` | Post-submit thank-you |
 
 ## Local development
 
@@ -18,7 +17,7 @@ cp .env.example .env.local   # fill values as needed
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173/alignna-v2`.
+Open `http://127.0.0.1:5173/`.
 
 For local subscribe to hit a remote API, set `VITE_NEWSLETTER_ENDPOINT` to that URL. With Vercel CLI (`vercel dev`) the `/api/subscribe` function runs locally.
 
@@ -38,8 +37,8 @@ For local subscribe to hit a remote API, set `VITE_NEWSLETTER_ENDPOINT` to that 
 
 4. Deploy and test:
 
-   - `https://<project>.vercel.app/alignna-v2`
-   - Submit the waitlist form → should land on `/alignna/thank-you` and upsert into the shared `subscribers` table (`source`: `alignna-v2-hero` / `mid` / `final`).
+   - `https://<project>.vercel.app/`
+   - Submit the waitlist form → should land on `/thank-you-page` and upsert into the shared `subscribers` table (`source`: `alignna-v2-hero` / `mid` / `final`).
 
 `vercel.json` keeps SPA rewrites; `/api/*` stays as serverless functions.
 

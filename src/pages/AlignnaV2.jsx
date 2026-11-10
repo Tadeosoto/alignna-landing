@@ -702,6 +702,10 @@ function SectionIntro({ eyebrow, title, body, className = "" }) {
 
 export default function AlignnaV2() {
   const isMobile = useIsMobile();
+
+  useEffect(() => {
+    document.title = "Alignna";
+  }, []);
   const panelLeftVariants = isMobile ? problemPanelMobile(0) : problemPanelLeft;
   const panelRightVariants = isMobile
     ? problemPanelMobile(1.45)
@@ -764,7 +768,7 @@ export default function AlignnaV2() {
                   ctaLabel="Lock in Early Bird price"
                   variant="overlay"
                   idSuffix="alignna-v2-hero"
-                  redirectTo="/alignna/thank-you"
+                  redirectTo="/thank-you-page"
                 />
               </div>
             </motion.div>
@@ -985,7 +989,7 @@ export default function AlignnaV2() {
                 ctaLabel="Lock in Early Bird price"
                 variant="light"
                 idSuffix="alignna-v2-mid"
-                redirectTo="/alignna/thank-you"
+                redirectTo="/thank-you-page"
               />
             </motion.div>
           </motion.div>
@@ -1191,7 +1195,7 @@ export default function AlignnaV2() {
               ctaLabel="Lock in Early Bird price"
               variant="light"
               idSuffix="alignna-v2-final"
-              redirectTo="/alignna/thank-you"
+              redirectTo="/thank-you-page"
             />
           </motion.div>
         </div>
