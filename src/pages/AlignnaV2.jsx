@@ -7,8 +7,25 @@ import "./AlignnaV2.css";
 const sectionImage = (filename) =>
   `/images-inside-sections/${encodeURIComponent(filename)}`;
 
-const situationImage = (filename) =>
-  `/images-inside-sections/wear-it-every-situation/${encodeURIComponent(filename)}`;
+const lifestyleSize = {
+  "01": { smallWidth: 800, smallHeight: 533, width: 1600, height: 1067 },
+  "02": { smallWidth: 640, smallHeight: 800, width: 1280, height: 1600 },
+  "03": { smallWidth: 800, smallHeight: 533, width: 1600, height: 1067 },
+  "04": { smallWidth: 800, smallHeight: 533, width: 1600, height: 1067 },
+  "05": { smallWidth: 800, smallHeight: 533, width: 1600, height: 1067 },
+  "06": { smallWidth: 533, smallHeight: 800, width: 1067, height: 1600 },
+  "07": { smallWidth: 800, smallHeight: 533, width: 1600, height: 1067 },
+  "08": { smallWidth: 533, smallHeight: 800, width: 1067, height: 1600 },
+};
+
+const lifestyleShot = (index) => {
+  const id = String(index).padStart(2, "0");
+  return {
+    image: `/fotos-wear-every-situation/lifestyle-${id}-1600.webp`,
+    imageSmall: `/fotos-wear-every-situation/lifestyle-${id}-800.webp`,
+    ...lifestyleSize[id],
+  };
+};
 
 const loopVideo = (name) => ({
   src: `/videos-and-posters/${name}.mp4`,
@@ -27,13 +44,20 @@ const loopVideos = {
 
 const sectionImages = {
   launchBelt: sectionImage("Section 5 Image 1 V01.png"),
-  colorBrown: sectionImage("Marron.png"),
-  colorPink: sectionImage("Rosa.png"),
-  colorOlive: sectionImage("Verde olivo.png"),
   founder: sectionImage("imagen-about-founder.png"),
   kickstarterLogo: sectionImage("KS-logo-hero.png"),
   kickstarterWordmark: sectionImage("Kickstarter-Logo.svg"),
 };
+
+const colorShot = (slug, objectPosition) => ({
+  image: `/colores-producto/color-${slug}-1080.webp`,
+  imageSmall: `/colores-producto/color-${slug}-540.webp`,
+  smallWidth: 540,
+  smallHeight: 675,
+  width: 1080,
+  height: 1350,
+  ...(objectPosition ? { objectPosition } : {}),
+});
 
 function attachInlinePlayback(node) {
   if (!node) return;
@@ -137,6 +161,8 @@ function LoopVideo({ src, poster, className, label, eager = false }) {
           src={poster}
           alt=""
           aria-hidden
+          loading={eager ? "eager" : "lazy"}
+          decoding={eager ? "auto" : "async"}
         />
       ) : null}
     </>
@@ -287,6 +313,37 @@ const stepFieldReveal = {
   },
 };
 
+const insideFeaturesLeft = [
+  {
+    title: "Silent haptic motor.",
+    body: "A quiet vibration only you feel.",
+  },
+  {
+    title: "Precision sensing.",
+    body: "Calibrated to your body, not an average one.",
+  },
+  {
+    title: "Tap control.",
+    body: "No buttons to find, just tap.",
+  },
+];
+
+const insideFeaturesRight = [
+  {
+    title: "Soft, breathable strap.",
+    body: "Comfortable through your day.",
+  },
+  {
+    title: "Adjustable fit.",
+    body: "Adjust it to fit your body.",
+  },
+  {
+    title: "Bluetooth sync.",
+    body: "See your awareness history in the Alignna app.",
+    badge: "App in development",
+  },
+];
+
 const steps = [
   {
     number: 1,
@@ -315,82 +372,89 @@ const lifeSlides = [
   {
     id: "light",
     label: "Light",
-    image: situationImage("For the everyday1.jpg"),
-    alt: "Woman walking along the beach wearing Alignna",
+    ...lifestyleShot(1),
+    alt: "Friends gathered around a table outdoors, wearing Alignna",
     body: "Joy that does not ask you to perform. Awareness that stays soft, so the moment can stay yours.",
   },
   {
     id: "together",
     label: "Together",
-    image: situationImage("For the everyday.jpg"),
-    alt: "Friends gathered outdoors wearing Alignna",
+    ...lifestyleShot(2),
+    alt: "Woman walking along the shoreline wearing Alignna",
     body: "Belonging without second-guessing yourself. Present with the people who matter.",
   },
   {
     id: "ease",
     label: "Ease",
-    image: situationImage("For the everyday 5.jpg"),
-    alt: "Woman leaning on a park bench wearing Alignna",
+    ...lifestyleShot(3),
+    alt: "Two men running on the beach wearing Alignna",
     body: "The unhurried feeling of a day with nowhere to be. A quiet cue before you drift.",
   },
   {
     id: "still",
     label: "Still",
-    image: situationImage("For the every day 4.jpg"),
-    alt: "Woman meditating by the ocean wearing Alignna",
+    ...lifestyleShot(4),
+    alt: "Group of women walking across a park wearing Alignna",
     body: "Breath, horizon, and room to settle. Support that respects the calm you are building.",
   },
   {
     id: "flow",
     label: "Flow",
-    image: situationImage("For the every day 3.jpg"),
+    ...lifestyleShot(5),
     alt: "Women stretching on the beach wearing Alignna",
     body: "Movement that feels natural, not forced. Your body in rhythm, your posture following.",
   },
   {
     id: "open",
     label: "Open",
-    image: situationImage("For the everyday (2).jpg"),
-    alt: "Woman wearing Alignna in everyday life",
+    ...lifestyleShot(6),
+    alt: "Woman meditating by the ocean wearing Alignna",
     body: "Confidence that does not need announcing. Wear it like it was always part of you.",
   },
   {
     id: "alive",
     label: "Alive",
-    image: situationImage("For the eeryday 2.jpg"),
-    alt: "Men running on the beach wearing Alignna",
+    ...lifestyleShot(7),
+    alt: "Three women walking beside the water wearing Alignna",
     body: "Energy in your stride, ease in your core. Stay aware while life moves fast.",
   },
   {
     id: "whole",
     label: "Whole",
-    image: situationImage("For t hee veryday 4.jpg"),
-    alt: "Person wearing Alignna during an everyday moment",
+    ...lifestyleShot(8),
+    alt: "Woman wearing the Alignna belt while leaning on a park bench",
     body: "Not a fix for how you look—a habit for how you feel. More you, more often.",
   },
 ];
 
 const colorSlides = [
   {
-    id: "brown",
-    label: "Brown",
-    image: sectionImages.colorBrown,
-    alt: "Alignna belt in brown",
-    body: "A warm neutral strap that pairs with everyday outfits.",
+    id: "black",
+    label: "Black",
+    ...colorShot("negro", "center 61.2%"),
+    alt: "Alignna belt in black",
+    body: "A deep black strap with the same discreet profile.",
   },
   {
-    id: "pink",
-    label: "Pink",
-    image: sectionImages.colorPink,
-    alt: "Alignna belt in pink",
-    body: "A soft rose tone with the same discreet profile.",
+    id: "gray",
+    label: "Gray",
+    ...colorShot("gris", "center 54.4%"),
+    alt: "Alignna belt in gray",
+    body: "A cool neutral strap that pairs with everyday outfits.",
   },
   {
     id: "olive",
     label: "Olive",
-    image: sectionImages.colorOlive,
+    ...colorShot("verde-olivo"),
     alt: "Alignna belt in olive green",
     body: "An earthy green option for understated wear.",
+  },
+  {
+    id: "brown",
+    label: "Brown",
+    ...colorShot("cafe"),
+    alt: "Alignna belt in brown",
+    body: "A warm brown strap that pairs with everyday outfits.",
   },
 ];
 
@@ -579,15 +643,45 @@ function MediaCarouselSection({
         <div className={`${className}__media`}>
           <div className={`${className}__stage`}>
             <AnimatePresence mode="sync">
-              <motion.img
+              <motion.div
                 key={slide.id}
-                src={slide.image}
-                alt={slide.alt}
+                className={`${className}__frame`}
                 initial={{ opacity: 0, scale: isProduct ? 1.22 : 1.035 }}
                 animate={{ opacity: 1, scale: isProduct ? 1.18 : 1 }}
                 exit={{ opacity: 0, scale: isProduct ? 1.2 : 1.02 }}
                 transition={{ duration: 0.85, ease }}
-              />
+              >
+                {slide.imageSmall ? (
+                  <picture>
+                    <source
+                      media="(max-width: 760px)"
+                      srcSet={slide.imageSmall}
+                    />
+                    <img
+                      src={slide.image}
+                      srcSet={`${slide.imageSmall} ${slide.smallWidth}w, ${slide.image} ${slide.width}w`}
+                      sizes="(max-width: 1024px) 92vw, 44rem"
+                      alt={slide.alt}
+                      width={slide.width}
+                      height={slide.height}
+                      loading="lazy"
+                      decoding="async"
+                      style={
+                        slide.objectPosition
+                          ? { objectPosition: slide.objectPosition }
+                          : undefined
+                      }
+                    />
+                  </picture>
+                ) : (
+                  <img
+                    src={slide.image}
+                    alt={slide.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </motion.div>
             </AnimatePresence>
           </div>
           <div className={`${className}__nav`}>
@@ -622,7 +716,19 @@ function MediaCarouselSection({
                       onClick={() => setIndex(itemIndex)}
                     >
                       <span className={`${className}__thumbFrame`}>
-                        <img src={item.image} alt="" />
+                        <img
+                          src={item.imageSmall || item.image}
+                          alt=""
+                          width={item.smallWidth}
+                          height={item.smallHeight}
+                          loading="lazy"
+                          decoding="async"
+                          style={
+                            item.objectPosition
+                              ? { objectPosition: item.objectPosition }
+                              : undefined
+                          }
+                        />
                       </span>
                       <b>{item.label}</b>
                     </button>
@@ -644,9 +750,21 @@ function MediaCarouselSection({
                     className={`${className}__thumb${itemIndex === index ? " is-active" : ""}`}
                     onClick={() => setIndex(itemIndex)}
                   >
-                    <span className={`${className}__thumbFrame`}>
-                      <img src={item.image} alt="" />
-                    </span>
+                      <span className={`${className}__thumbFrame`}>
+                        <img
+                          src={item.imageSmall || item.image}
+                          alt=""
+                          width={item.smallWidth}
+                          height={item.smallHeight}
+                          loading="lazy"
+                          decoding="async"
+                          style={
+                            item.objectPosition
+                              ? { objectPosition: item.objectPosition }
+                              : undefined
+                          }
+                        />
+                      </span>
                     <b>{item.label}</b>
                   </button>
                 ))}
@@ -726,6 +844,24 @@ function LifeCarousel() {
       prevLabel="Previous lifestyle"
       nextLabel="Next lifestyle"
     />
+  );
+}
+
+function InsideFeature({ feature }) {
+  return (
+    <motion.li
+      className="alignnaV2Inside__feature"
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      variants={reveal}
+    >
+      <h3>{feature.title}</h3>
+      <p>{feature.body}</p>
+      {feature.badge ? (
+        <span className="alignnaV2Inside__badge">{feature.badge}</span>
+      ) : null}
+    </motion.li>
   );
 }
 
@@ -839,7 +975,7 @@ export default function AlignnaV2() {
             The real problem
           </motion.p>
           <motion.h2 variants={reveal}>
-            See the effects of posture awareness, before and after
+            See the effects of posture awareness, without Alignna and with Alignna
           </motion.h2>
         </motion.div>
         <motion.div
@@ -856,7 +992,7 @@ export default function AlignnaV2() {
             <LoopVideo
               src={loopVideos.problemBefore.src}
               poster={loopVideos.problemBefore.poster}
-              label="Posture before posture awareness"
+              label="Without Alignna"
             />
           </motion.article>
 
@@ -888,7 +1024,7 @@ export default function AlignnaV2() {
             <LoopVideo
               src={loopVideos.problemAfter.src}
               poster={loopVideos.problemAfter.poster}
-              label="Posture after posture awareness"
+              label="With Alignna"
             />
           </motion.article>
 
@@ -991,21 +1127,33 @@ export default function AlignnaV2() {
           eyebrow="Inside Alignna"
           title="Quiet precision, built for everyday life."
         />
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          variants={stagger}
-          className="alignnaV2Inside__media"
-        >
-          <motion.div variants={reveal} className="alignnaV2Inside__render">
-            <LoopVideo
-              src={loopVideos.inside.src}
-              poster={loopVideos.inside.poster}
-              label="Alignna belt render"
-            />
+        <div className="alignnaV2Inside__stage">
+          <ul className="alignnaV2Inside__features alignnaV2Inside__features--left">
+            {insideFeaturesLeft.map((feature) => (
+              <InsideFeature key={feature.title} feature={feature} />
+            ))}
+          </ul>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            variants={stagger}
+            className="alignnaV2Inside__media"
+          >
+            <motion.div variants={reveal} className="alignnaV2Inside__render">
+              <LoopVideo
+                src={loopVideos.inside.src}
+                poster={loopVideos.inside.poster}
+                label="Alignna belt render"
+              />
+            </motion.div>
           </motion.div>
-        </motion.div>
+          <ul className="alignnaV2Inside__features alignnaV2Inside__features--right">
+            {insideFeaturesRight.map((feature) => (
+              <InsideFeature key={feature.title} feature={feature} />
+            ))}
+          </ul>
+        </div>
         <p className="alignnaV2Inside__quote">
           Reviewed with a Pelvic Floor and Physiotherapist Specialist
         </p>
@@ -1029,6 +1177,8 @@ export default function AlignnaV2() {
                 className="alignnaV2Launch__kickstarter"
                 src={sectionImages.kickstarterWordmark}
                 alt="Kickstarter"
+                loading="lazy"
+                decoding="async"
               />
               <h2>Before Alignna goes public.</h2>
               <p className="alignnaV2Launch__lead">
@@ -1055,6 +1205,8 @@ export default function AlignnaV2() {
               variants={reveal}
               src={sectionImages.launchBelt}
               alt=""
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
@@ -1124,6 +1276,8 @@ export default function AlignnaV2() {
             <img
               src={sectionImages.founder}
               alt="Michelle Castellanos, Alignna founder, holding the Alignna belt"
+              loading="lazy"
+              decoding="async"
             />
           </motion.figure>
           <div className="alignnaV2Founder__rule" aria-hidden />
@@ -1188,6 +1342,8 @@ export default function AlignnaV2() {
               className="alignnaV2Final__kickstarter"
               src={sectionImages.kickstarterWordmark}
               alt="Kickstarter"
+              loading="lazy"
+              decoding="async"
             />
             <motion.h2 variants={reveal}>
               Secure the USD $99 launch offer.
@@ -1231,6 +1387,8 @@ export default function AlignnaV2() {
               className="alignnaV2Final__belt"
               src={sectionImages.launchBelt}
               alt="Alignna belt"
+              loading="lazy"
+              decoding="async"
             />
           </motion.div>
 
