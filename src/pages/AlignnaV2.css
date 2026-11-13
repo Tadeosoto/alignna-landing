@@ -248,6 +248,9 @@
 
 .alignnaV2Inside {
   --inside-bg: #232622;
+  --inside-sage: #b9c9b5;
+  --inside-mark: 2.15rem;
+  --inside-mark-gap: .72rem;
   padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 6vw, 7rem);
   background: var(--inside-bg);
   color: #f8f6f3;
@@ -279,8 +282,42 @@
 }
 .alignnaV2Inside__features--left .alignnaV2Inside__feature { margin-left: auto; }
 .alignnaV2Inside__features--right .alignnaV2Inside__feature { margin-right: auto; }
+.alignnaV2Inside__featureHead {
+  display: flex;
+  align-items: center;
+  gap: var(--inside-mark-gap);
+  margin-bottom: .32rem;
+}
+.alignnaV2Inside__mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--inside-mark);
+  height: var(--inside-mark);
+  border-radius: 50%;
+  background: rgba(185, 201, 181, .16);
+}
+.alignnaV2Inside__mark::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46%;
+  height: 42%;
+  background-color: var(--inside-sage);
+  transform: translate(-50%, -50%);
+  -webkit-mask-image: url("/thank-you-page-assets/A-MaderaClara.svg");
+  mask-image: url("/thank-you-page-assets/A-MaderaClara.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
 .alignnaV2Inside__feature h3 {
-  margin: 0 0 .32rem;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
   color: #f8f6f3;
   font-family: "DM Sans", system-ui, sans-serif;
   font-size: clamp(1rem, 1.15vw, 1.14rem);
@@ -288,6 +325,9 @@
   line-height: 1.25;
   letter-spacing: -.02em;
   text-wrap: balance;
+}
+.alignnaV2Inside__featureCopy {
+  padding-left: calc(var(--inside-mark) + var(--inside-mark-gap));
 }
 .alignnaV2Inside__feature p {
   margin: 0;
@@ -1399,7 +1439,13 @@
     grid-column: 2;
     grid-row: 2 / span 3;
   }
-  .alignnaV2Inside__feature { width: 100%; margin: 0; align-self: start; }
+  .alignnaV2Inside__feature {
+    --inside-mark: 1.75rem;
+    --inside-mark-gap: .45rem;
+    width: 100%;
+    margin: 0;
+    align-self: start;
+  }
   .alignnaV2Inside__feature h3 { font-size: .92rem; }
   .alignnaV2Inside__feature p { font-size: .8rem; line-height: 1.4; }
   .alignnaV2Inside__badge {

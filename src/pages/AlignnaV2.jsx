@@ -856,11 +856,16 @@ function InsideFeature({ feature }) {
       viewport={viewport}
       variants={reveal}
     >
-      <h3>{feature.title}</h3>
-      <p>{feature.body}</p>
-      {feature.badge ? (
-        <span className="alignnaV2Inside__badge">{feature.badge}</span>
-      ) : null}
+      <div className="alignnaV2Inside__featureHead">
+        <span className="alignnaV2Inside__mark" aria-hidden="true" />
+        <h3>{feature.title}</h3>
+      </div>
+      <div className="alignnaV2Inside__featureCopy">
+        <p>{feature.body}</p>
+        {feature.badge ? (
+          <span className="alignnaV2Inside__badge">{feature.badge}</span>
+        ) : null}
+      </div>
     </motion.li>
   );
 }
