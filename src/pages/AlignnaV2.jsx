@@ -18,14 +18,28 @@ const lifestyleSize = {
   "08": { smallWidth: 533, smallHeight: 800, width: 1067, height: 1600 },
 };
 
-const lifestyleShot = (index) => {
+const lifestyleShot = (index, frame) => {
   const id = String(index).padStart(2, "0");
   return {
     image: `/fotos-wear-every-situation/lifestyle-${id}-1600.webp`,
     imageSmall: `/fotos-wear-every-situation/lifestyle-${id}-800.webp`,
     ...lifestyleSize[id],
+    ...frame,
   };
 };
+
+function slideImageStyle(item) {
+  if (!item?.objectPosition && !item?.zoom) return undefined;
+  return {
+    ...(item.objectPosition ? { objectPosition: item.objectPosition } : null),
+    ...(item.zoom
+      ? {
+          transform: `scale(${item.zoom})`,
+          transformOrigin: item.objectPosition || "center",
+        }
+      : null),
+  };
+}
 
 const loopVideo = (name) => ({
   src: `/videos-and-posters/${name}.mp4`,
@@ -393,14 +407,14 @@ const lifeSlides = [
   {
     id: "still",
     label: "Still",
-    ...lifestyleShot(4),
+    ...lifestyleShot(4, { objectPosition: "62% 52%", zoom: 1.22 }),
     alt: "Group of women walking across a park wearing Alignna",
     body: "Breath, horizon, and room to settle. Support that respects the calm you are building.",
   },
   {
     id: "flow",
     label: "Flow",
-    ...lifestyleShot(5),
+    ...lifestyleShot(5, { objectPosition: "center 48%", zoom: 1.2 }),
     alt: "Women stretching on the beach wearing Alignna",
     body: "Movement that feels natural, not forced. Your body in rhythm, your posture following.",
   },
@@ -428,6 +442,19 @@ const lifeSlides = [
 ];
 
 const colorSlides = [
+  {
+    id: "original",
+    label: "Original",
+    image: "/colores-producto/Original(1).png",
+    imageSmall: "/colores-producto/Original(1).png",
+    smallWidth: 896,
+    smallHeight: 1200,
+    width: 896,
+    height: 1200,
+    objectPosition: "center 54%",
+    alt: "Alignna belt in the original sand color",
+    body: "The original sand strap, the color Alignna is shown in.",
+  },
   {
     id: "black",
     label: "Black",
@@ -587,6 +614,7 @@ function MediaCarouselSection({
   ariaLabel,
   slides,
   introTitle,
+  introNote,
   eyebrow,
   heading,
   variant = "lifestyle",
@@ -597,6 +625,7 @@ function MediaCarouselSection({
 }) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const thumbsRef = useRef(null);
   const total = slides.length;
   const slide = slides[index];
   const isProduct = variant === "product";
@@ -620,6 +649,16 @@ function MediaCarouselSection({
     return () => window.clearInterval(timer);
   }, [index, paused, total]);
 
+  useEffect(() => {
+    const scroller = thumbsRef.current;
+    if (!scroller || scroller.scrollWidth <= scroller.clientWidth + 1) return undefined;
+    const active = scroller.querySelector(".is-active");
+    if (!active) return undefined;
+    const left = active.offsetLeft - (scroller.clientWidth - active.offsetWidth) / 2;
+    scroller.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+    return undefined;
+  }, [index]);
+
   return (
     <section
       className={className}
@@ -637,6 +676,9 @@ function MediaCarouselSection({
           variants={reveal}
         >
           <h2>{introTitle}</h2>
+          {introNote ? (
+            <p className={`${className}__introNote`}>{introNote}</p>
+          ) : null}
         </motion.div>
       ) : null}
       <div className={`${className}__shell`}>
@@ -666,11 +708,7 @@ function MediaCarouselSection({
                       height={slide.height}
                       loading="lazy"
                       decoding="async"
-                      style={
-                        slide.objectPosition
-                          ? { objectPosition: slide.objectPosition }
-                          : undefined
-                      }
+                      style={slideImageStyle(slide)}
                     />
                   </picture>
                 ) : (
@@ -705,6 +743,7 @@ function MediaCarouselSection({
                   className={`${className}__thumbs ${className}__thumbs--carousel`}
                   role="tablist"
                   aria-label={thumbAriaLabel}
+                  ref={thumbsRef}
                 >
                   {slides.map((item, itemIndex) => (
                     <button
@@ -723,11 +762,7 @@ function MediaCarouselSection({
                           height={item.smallHeight}
                           loading="lazy"
                           decoding="async"
-                          style={
-                            item.objectPosition
-                              ? { objectPosition: item.objectPosition }
-                              : undefined
-                          }
+                          style={slideImageStyle(item)}
                         />
                       </span>
                       <b>{item.label}</b>
@@ -740,6 +775,7 @@ function MediaCarouselSection({
                 className={`${className}__thumbs`}
                 role="tablist"
                 aria-label={thumbAriaLabel}
+                ref={thumbsRef}
               >
                 {slides.map((item, itemIndex) => (
                   <button
@@ -758,11 +794,7 @@ function MediaCarouselSection({
                           height={item.smallHeight}
                           loading="lazy"
                           decoding="async"
-                          style={
-                            item.objectPosition
-                              ? { objectPosition: item.objectPosition }
-                              : undefined
-                          }
+                          style={slideImageStyle(item)}
                         />
                       </span>
                     <b>{item.label}</b>
@@ -820,7 +852,8 @@ function ColorsCarousel() {
       className="alignnaV2Colors"
       ariaLabel="Alignna color options"
       slides={colorSlides}
-      introTitle="Match your lifestyle, available in the following colors"
+      introTitle="Match your lifestyle, different colors available"
+      introNote="(more colors to be confirmed)"
       variant="product"
       thumbAriaLabel="Color options"
       prevLabel="Previous color"
@@ -1160,7 +1193,7 @@ export default function AlignnaV2() {
           </ul>
         </div>
         <p className="alignnaV2Inside__quote">
-          Reviewed with a Pelvic Floor and Physiotherapist Specialist
+          — Reviewed with a Pelvic Floor and Physiotherapist Specialist —
         </p>
       </section>
 

@@ -540,6 +540,15 @@
   line-height: 1.04;
   letter-spacing: -.055em;
 }
+.alignnaV2Colors__introNote {
+  max-width: 28rem;
+  margin: .7rem 0 0;
+  color: #6a6f68;
+  font-size: clamp(.95rem, 1.35vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -.02em;
+}
 .alignnaV2Life__shell {
   display: grid;
   grid-template-columns: minmax(0, 1.18fr) minmax(20rem, .82fr);
@@ -671,7 +680,7 @@
 }
 .alignnaV2Colors__thumbs {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: .7rem;
 }
 .alignnaV2Life__thumb,
@@ -725,6 +734,10 @@
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
+}
+.alignnaV2Colors__thumb b {
+  letter-spacing: .08em;
+  white-space: nowrap;
 }
 .alignnaV2Life__thumb.is-active b,
 .alignnaV2Colors__thumb.is-active b { color: #3f4a3f; }
@@ -1504,6 +1517,11 @@
     font-size: clamp(1.75rem, 7.2vw, 2.15rem);
     line-height: 1.05;
   }
+  .alignnaV2Colors__introNote {
+    max-width: none;
+    margin: .55rem auto 0;
+    font-size: .9rem;
+  }
   .alignnaV2Life__shell,
   .alignnaV2Colors__shell { grid-template-columns: 1fr; }
   .alignnaV2Life__media,
@@ -1526,6 +1544,20 @@
   .alignnaV2Colors__copy > p:last-of-type { margin-inline: auto; }
   .alignnaV2Life__thumb b,
   .alignnaV2Colors__thumb b { font-size: .52rem; letter-spacing: .08em; }
+  .alignnaV2Colors__thumbs {
+    display: flex;
+    gap: .45rem;
+    min-width: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .alignnaV2Colors__thumbs::-webkit-scrollbar { display: none; }
+  .alignnaV2Colors__thumb {
+    flex: 0 0 4.5rem;
+    scroll-snap-align: center;
+  }
+  .alignnaV2Colors__thumb b { letter-spacing: .04em; }
   .alignnaV2Colors__stage {
     aspect-ratio: 16 / 10;
     min-height: 0;
