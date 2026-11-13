@@ -1193,7 +1193,7 @@ export default function AlignnaV2() {
           </ul>
         </div>
         <p className="alignnaV2Inside__quote">
-          — Reviewed with a Pelvic Floor and Physiotherapist Specialist —
+          Reviewed with a — Pelvic Floor — and Physiotherapist Specialist
         </p>
       </section>
 
